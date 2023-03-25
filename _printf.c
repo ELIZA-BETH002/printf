@@ -1,90 +1,30 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <main.h>
+#include "main.h"
 
-int _printf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    int count = 0;
+/**
+ * _printf - Produces output according to a format
+ * @format: Is a character string. The format string
+ * is composed of zero or more directives
+ *
+ * Return: The number of characters printed (excluding
+ * the null byte used to end output to strings)
+ **/
+int _printf(const char *format, ...)
+{
+int size;
+va_list args;
 
-    while (*format) {
-        if (*format == %) {
-            format++;
-            switch (*format) {
-                case c: {
-                    char c = va_arg(args, int);
-                    putchar(c);
-                    count++;
-                    break;
-                }
-                case s: {
-                    char *str = va_arg(args, char*);
-                    while (*str) {
-                        putchar(*str);
-                        str++;
-                        count++;
-                    }
-                    break;
-                }
-                case %: {
-                    putchar(%);
-                    count++;
-                    break;
-                }
-            }
-        } else {
-            putchar(*format);
-            count++;
-        }
-        format++;
-    }
+if (format == NULL)
+return (-1);
 
-    va_end(args);
-    return count;
+size = _strlen(format);
+if (size <= 0)
+return (0);
+
+va_start(args, format);
+size = handler(format, args);
+
+_putchar(-1);
+va_end(args);
+
+return (size);
 }
-
-#include <stdio.h>
-#include <stdarg.h>
-#include <main.h>
-
-int _printf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    int count = 0;
-
-    while (*format) {
-        if (*format == %) {
-            format++;
-            switch (*format) {
-                case c: {
-                    char c = va_arg(args, int);
-                    putchar(c);
-                    count++;
-                    break;
-                }
-                case s: {
-                    char *str = va_arg(args, char*);
-                    while (*str) {
-                        putchar(*str);
-                        str++;
-                        count++;
-                    }
-                    break;
-                }
-                case %: {
-                    putchar(%);
-                    count++;
-                    break;
-                }
-            }
-        } else {
-            putchar(*format);
-            count++;
-        }
-        format++;
-    }
-
-    va_end(args);
-    return count;
-}
-
